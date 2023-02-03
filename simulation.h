@@ -36,7 +36,8 @@ protected:
      */
     bool readRequest(InputDataType &request) {
         // TO-DO: Implement.
-        request.my_string = "nSFd0,b0;nb0b1;ab2g31g14;ob1LTb2;\n";
+        strncpy(request.my_string, "nSFd0,b0;nb0b1;ab2g31g14;ob1LTb2;\n", sizeof(request.my_string) - 1);
+        // request.my_string = "nSFd0,b0;nb0b1;ab2g31g14;ob1LTb2;\n";
         return true;
 
         // return false;

@@ -432,7 +432,7 @@ void Breadboard::update(double delta){
     if(!requestWasRead) {
         return;
     }
-    my_string = request.my_string;
+    string my_string = string(request.my_string);
 
     int index = 0;
     int my_string_length = my_string.length();

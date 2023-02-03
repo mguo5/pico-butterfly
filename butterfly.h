@@ -25,6 +25,7 @@ using namespace std;
 #define BUFFER_ARRAY_SIZE   5
 #define LED_ARRAY_SIZE      5
 #define NUM_SATURATION_ITR  5
+#define MAX_CHAR_ARRAY_SIZE 1024
 
 // GPIO structs
 struct gpio_input {
@@ -60,7 +61,7 @@ struct gpio_header {
 
 // struct that receives the string
 struct butterfly_request {
-    string my_string;
+    char my_string[MAX_CHAR_ARRAY_SIZE];
 };
 
 // struct that tracks the virtual LED states
