@@ -4,6 +4,7 @@
 
 #include "simulation.h"
 #include <string>
+#include <cstring>
 #include <sstream>
 #include <stdio.h>
 
@@ -22,50 +23,28 @@ using namespace std;
 #define IS_SWITCH_NEXT_CHAR_SIZE  1
 #define IS_LED_NEXT_CHAR_SIZE     1
 
-#define BUFFER_ARRAY_SIZE   5
+#define BUFFER_ARRAY_SIZE   10
 #define LED_ARRAY_SIZE      5
-#define NUM_SATURATION_ITR  5
 #define MAX_CHAR_ARRAY_SIZE 1024
 
-// GPIO structs
-struct gpio_input {
-    bool g31;
-    bool g32;
-};
-
-struct gpio_output {
-    bool g06;
-    bool g07;
-    bool g08;
-    bool g09;
-    bool g10;
-    bool g13;
-    bool g14;
-    bool g15;
-    bool g16;
-    bool g17;
-    bool g18;
-    bool g19;
-    bool g20;
-    bool g21;
-    bool g22;
-    bool g23;
-    bool g24;
-    bool g25;
-};
-
-struct gpio_header {
-    gpio_input input;
-    gpio_output output;
-};
+#define SIM_OUTPUT_GPIO_NUM 5
+#define SIM_INPUT_GPIO_NUM  7
 
 // struct that receives the string
-struct butterfly_request {
+struct ButterflyRequest {
     char my_string[MAX_CHAR_ARRAY_SIZE];
+
+    bool deserialize(std::string const & input) {
+        if (input.size() < MAX_CHAR_ARRAY_SIZE - 1) {
+            strcpy(my_string, input.c_str());
+            return true;
+        }
+        return false;
+    }
 };
 
 // struct that tracks the virtual LED states
-struct butterfly_data {
+struct ButterflyData {
     bool virtual_led[LED_ARRAY_SIZE];
 
     string serialize() const {
@@ -81,14 +60,15 @@ struct butterfly_data {
     }
 };
 
-class Breadboard : public Simulation<butterfly_data, butterfly_request> {
+class ButterflySimulation : public Simulation<ButterflyData, ButterflyRequest> {
     private:
-        gpio_header my_header;
         bool buffer[BUFFER_ARRAY_SIZE];
-        string my_string;
+        bool output_gpio_tracker[SIM_OUTPUT_GPIO_NUM];
+        bool input_gpio_tracker[SIM_INPUT_GPIO_NUM];
+        string my_string = "";
     public:
 
-        Breadboard() = default;
+        ButterflySimulation() = default;
         virtual void update(double delta) override;
         virtual void initialize() override;
 
@@ -107,7 +87,7 @@ class Breadboard : public Simulation<butterfly_data, butterfly_request> {
         int handle_input(string substring, int &start_index);
         void handle_output(string substring, int &start_index, int my_output);
         int read_logic_gate(string substring);
-        bool check_if_same(gpio_header h2, bool buffer_copy[]);
+        bool check_if_same(bool input_gpio_copy[], bool output_gpio_copy[], bool buffer_copy[]);
 };
 
 #endif

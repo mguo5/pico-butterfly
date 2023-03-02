@@ -1,13 +1,13 @@
 #include <iostream>
 #include "butterfly.h"
 
-const int limit = 10;
+const int limit = 1;
 
 using namespace std;
 
 int main() {
 
-    Breadboard simulation;
+    ButterflySimulation simulation;
     clock_t currentClock = clock();
 
     int i = 0;
