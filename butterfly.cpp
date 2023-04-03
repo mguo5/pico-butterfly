@@ -8,17 +8,17 @@ using namespace std;
 void ButterflySimulation::initialize() {
   // Initalizes buffer to have all values set to false
   for (int i = 0; i < SIM_OUTPUT_GPIO_NUM; i++) {
-    this->output_gpio_tracker[i] = false;
+    this->output_gpio_tracker.push_back(false);
   }
 
   // Initalizes buffer to have all values set to false
   for (int i = 0; i < SIM_INPUT_GPIO_NUM; i++) {
-    this->input_gpio_tracker[i] = false;
+    this->input_gpio_tracker.push_back(false);
   }
 
   // Initalizes buffer to have all values set to false
   for (int i = 0; i < BUFFER_ARRAY_SIZE; i++) {
-    this->buffer[i] = false;
+    this->buffer.push_back(false);
   }
 
   // Initalizes buffer to have all values set to false
