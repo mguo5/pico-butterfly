@@ -7,6 +7,7 @@
 #include <cstring>
 #include <sstream>
 #include <stdio.h>
+#include <vector>
 
 using namespace std;
 
@@ -62,9 +63,9 @@ struct ButterflyData {
 
 class ButterflySimulation : public Simulation<ButterflyData, ButterflyRequest> {
  private:
-  bool buffer[BUFFER_ARRAY_SIZE];
-  bool output_gpio_tracker[SIM_OUTPUT_GPIO_NUM];
-  bool input_gpio_tracker[SIM_INPUT_GPIO_NUM];
+  vector<bool> buffer;
+  vector<bool> output_gpio_tracker;
+  vector<bool> input_gpio_tracker;
   string my_string = "";
 
  public:
@@ -88,8 +89,8 @@ class ButterflySimulation : public Simulation<ButterflyData, ButterflyRequest> {
   bool handle_input(string substring, int &start_index);
   void handle_output(string substring, int &start_index, bool my_output);
   int read_logic_gate(string substring);
-  bool check_if_same(bool input_gpio_copy[], bool output_gpio_copy[],
-                     bool buffer_copy[]);
+  bool check_if_same(std::vector<bool> input_gpio_copy, std::vector<bool> output_gpio_copy,
+                     std::vector<bool> buffer_copy);
 };
 
 #endif
